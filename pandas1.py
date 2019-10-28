@@ -74,4 +74,3 @@ plt.xlabel('Order Price')
 plt.ylabel('Items ordered')
 plt.title('Number of items ordered per order price')
 plt.ylim(0,40)
-?plt.ylim
