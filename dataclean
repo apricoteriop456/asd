@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Oct 19 20:39:17 2019
+
+@author: apple
+"""
+
+import pandas as pd
+import numpy as py
+department=pd.read_excel(r'/Users/apple/Downloads/teacher-research-master/data/department.xlsx')
+teacher_depart=pd.read_excel(r'/Users/apple/Downloads/teacher-research-master/data/teacher_depart.xlsx')
+var_code=pd.read_excel(r'/Users/apple/Downloads/teacher-research-master/data/var_code.xlsx')
+raw_data=pd.read_excel(r'/Users/apple/Downloads/2019.7.5工号姓名版本教师信息.xls')
+var_code['Unnamed: 5'][13]='appointment title'
+var_code['Unnamed: 5'][14]='current_level_time'
+tea_data=pd.read_excel(r'/Users/apple/Downloads/教师基本资料.xlsx')
+raw_data.columns=list(var_code.iloc[1:30,2])
+#raw_data.rename()#只适用于修改部分列名
+tea_data.columns=list(var_code.iloc[1:18,5])
+raw_data.dtypes#均为字符型
+from datetime import datetime
+import numpy as np
+raw_data.come_date=pd.to_datetime(raw_data.come_date,format='%Y-%m-%d')#注意：若format使用'%Y%m%d'会出错
+#dates=datetime.date(2009,1,1)
+a=pd.to_datetime('2009-01-01',format='%Y-%m-%d')#timestamp形式
+#raw_data.ix[(raw_data.come_date>=a) & (raw_data.teacher_cate=='专任教师'),:]也可以
+data=raw_data[(raw_data.come_date>=a) & (raw_data.teacher_cate=='专任教师')]
+#type(raw_data.come_date.values[0])是numpy.datetime64形式。
+
+
+"""
+有datetime.datetime形式、和numpy.datetime64形式以及timestamp形式，三者可以相互比较
+dt=datetime.datetime(2009,1,1)
+dt的输出是datetime.datetime(2009, 1, 1, 0, 0)
+ts=pd.DatetimeIndex([dt])[0]
+ts的输出是Timestamp('2009-01-01 00:00:00')
+dt64=np.datetime64(dt)
+dt64的输出是numpy.datetime64('2009-01-01T00:00:00.000000')
+可直接传入timestamp格式和datetime格式，使其转换为numpy.datetime64
+np.datetime64(dt)/np.datetime(ts)
+"""
+
